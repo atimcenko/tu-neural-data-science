@@ -2,3 +2,5 @@ hw01/data/
 hw01/notebooks/.ipynb_checkpoints/
 hw02/notebooks/.ipynb_checkpoints/
 hw02/data/
+data/*
+notebooks/.ipynb_checkpoints/
