@@ -4,3 +4,5 @@ hw02/notebooks/.ipynb_checkpoints/
 hw02/data/
 data/*
 notebooks/.ipynb_checkpoints/
+.DS_Store
+notebooks/.DS_Store
