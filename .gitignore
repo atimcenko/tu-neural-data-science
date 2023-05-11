@@ -5,3 +5,4 @@ hw02/data/
 data/*
 notebooks/.ipynb_checkpoints/
 pdfs/
+notebooks/__pacache__/
