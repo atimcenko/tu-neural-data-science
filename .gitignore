@@ -6,3 +6,5 @@ data/*
 notebooks/.ipynb_checkpoints/
 .DS_Store
 notebooks/.DS_Store
+pdfs/
+notebooks/__pacache__/
