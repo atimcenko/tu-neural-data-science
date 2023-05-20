@@ -1,5 +1,5 @@
 # Neural Data Science coding assigments
-**Collaborators**: Aleksejs Timcenko, Ali Gholamzadeh
+**Collaborators**: Aleksejs Timcenko, Ali Gholamzadeh, Nitin Sharma
 
 ## Notes for collaborators
 
