@@ -11,4 +11,6 @@
 7. Use `git add .` and `git commit -m "commit message"` to save your changes into your branch locally on the repository.
 8. Push to your remote branch via `git push origin YourBranchName`.
 9. If you have a solid chunk of work done that could be useful to other collaborators, log in into the github, enter the repository and locate the "Compare and pull-request" button. Merge your branch into `main`. If everything done correctly, no merge conflict will be present.
+10. To keep you local repository up to date use: `git fetch` from YourBranch. To merge remote main into local YourBranch use `git switch main` and `git pull` to receive the latest remote commits from  main. 
+11. To update your local feature branch with changes from main use `git merge main`.
 
