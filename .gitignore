@@ -8,3 +8,4 @@ notebooks/.ipynb_checkpoints/
 notebooks/.DS_Store
 pdfs/
 notebooks/__pacache__/
+notebooks/poisson-gpfa/
