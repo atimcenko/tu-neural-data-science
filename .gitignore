@@ -9,3 +9,8 @@ notebooks/.DS_Store
 pdfs/
 notebooks/__pacache__/
 notebooks/poisson-gpfa/
+RFEst/
+Cascade/
+practical/.ipynb_checkpoints/
+practical/__pycache__/
+img/
