@@ -102,7 +102,8 @@ def get_stim_spike_data(spikes, stim_table):
     """
     istim_start = stim_table['start'].values
     istim_end   = stim_table['end'].values
-
+    
+    n_neurons, n_times = spikes.shape
     n_stim = len(istim_start)
 
     stim_spike_data = np.empty((n_stim, n_neurons))
@@ -123,7 +124,6 @@ def load_spikes(model_name, fillnan="zeros"):
     - median
     
     """  
-    model_name = cascade_models[1]
     spikes = np.load(f"../data/spikes/spikes_{model_name}.npy")
     n_neurons = spikes.shape[0]
     
