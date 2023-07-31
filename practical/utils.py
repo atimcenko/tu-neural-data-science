@@ -115,6 +115,39 @@ def get_stim_spike_data(spikes, stim_table):
     return stim_spike_data
 
 
+
+def get_stim_dff_data(dff, stim_table, threshold_multiplier=5):
+    """
+    Calculate mean dF/F within each stimulus timeframe.
+    Uses robust threshold to separate activity from noise.
+    Set multiplier to 0 not to use the treshold at all.
+    """
+    istim_start = stim_table['start'].values
+    istim_end   = stim_table['end'].values
+    
+    n_neurons, n_times = dff.shape
+    n_stim = len(istim_start)
+    dff = dff.copy()
+    
+    # compute thresholds
+    thresholds = [
+        threshold_multiplier * est_robust_std(dff, neuron) 
+        for neuron in range(n_neurons)
+                 ]
+    # set noise values to zero
+    for neuron in range(n_neurons):
+        dff[neuron, dff[neuron] < thresholds[neuron]] = 0
+    
+    # fill in the mean values
+    stim_dff_data = np.empty((n_stim, n_neurons))
+    for i in range(n_stim):
+        # cut out spikes outside of trial times
+        dff_frame = dff[:, istim_start[i]:istim_end[i]]
+        # sum over time dimension to get expected spike count within a trial
+        stim_dff_data[i] = np.sum(dff_frame, axis=1) 
+    return stim_dff_data
+
+
 def load_spikes(model_name, fillnan="zeros"):
     """
     Expected spike directory: ../data/spikes/
