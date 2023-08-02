@@ -6,6 +6,7 @@ from scipy import signal, stats
 # plotting
 import seaborn as sns
 import matplotlib.pyplot as plt
+import matplotlib as mpl
 
 # system
 from pathlib import Path
@@ -168,8 +169,68 @@ def load_spikes(model_name, fillnan="zeros"):
     for neuron in range(n_neurons):
         spikes[neuron, np.isnan(spikes[neuron])] = fillvals[fillnan][neuron]
     return spikes
+
+
+def load_rf(rf_model, spikes_model):
+    data_path = Path("../data/")
+    rf_path = data_path / "rf"
+    fname = f"rf_{rf_model}_spikes-{spikes_model}.npy"
+    rf = np.load(rf_path / fname)
+    return rf
     
     
 def gen_norm():
     return stats.norm.rvs()
+
+
+
+def get_discrete_colors(n_colors, display=False):
+    """
+    Gets discrete colors for e.g. different labels in the clusters
+    Accepts maximum number of 20 n_colors
+    """
+    assert n_colors < 21, "Maximal number of colors is 20!"
+    
+    # get colors from a nice cmap
+    colors = mpl.colormaps['tab20b'].colors
+    
+    # change the ordering of colors to a nice one
+    colors = np.array(colors).reshape(5, 4, 3)
+    colors = np.swapaxes(colors, 0, 1)
+    colors = colors.reshape((20, 3))
+    
+    # brighter colors first and then darker ugly ones
+    colors = np.concatenate((colors[5:], colors[:5]), axis=0)
+    colors = colors[:int(n_colors)]
+    if display:
+        plt.imshow(colors.reshape((1, n_colors, 3)))
+    return colors
+
+
+def get_continuous_colors(values, cmap, zero_centered=True, shrink_factor=0.5, shift=0.4, display=False):
+    """
+    Gets a gradient color for each of the value in values.
+    Rescales the values from from (0.05 to 0.95) or from ()
+    Recommended cmaps: 
+        - from 0 to max: "Reds", "Blues", "Greens", "Purples"
+        - from -min to -max: "bwr", "RdBu_r"
+    """
+    cmap_func = mpl.colormaps[cmap]      
+    # handle the case from 0 to 1 colormaps
+    if zero_centered:
+        # Zero should always be mapped to 1/2 in the normalized array
+        max_absval = np.max(np.abs(values))  
+        values_normalized = values / (2 * max_absval) * shrink_factor + 0.5     
+    else:
+        max_val = np.max(values)
+        min_val = np.min(values)
+        # ensure values fall within (0.05, 0.95 interval) if shrink_factor = 0.9
+        values = (values - min_val) / (max_val - min_val)
+        values_normalized = shrink_factor * values + shift
+
+    colors = np.array([cmap_func(v)[:3] for v in values_normalized]) # get RGB 3 values, not 4
+    if display:
+        plt.imshow(colors.reshape(1, len(values), 3))
+        plt.show()
+    return colors
     
